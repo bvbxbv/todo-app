@@ -2,49 +2,47 @@ import "./scss/main.scss";
 
 const todoList = document.getElementById("todo-list");
 
+function clampString(input: string, chLimit = 80): string {
+  return input.substring(0, chLimit) + (input.length > chLimit ? "..." : "");
+}
+
 if (todoList !== null) {
-  for (let i = 0; i < 24; i++) {
+  for (let i = 0; i < 6; i++) {
     todoList.innerHTML += `
 		<div class="todo-item">
-										<div class="group">
-											<div class="__content">
-												<div class="group">
-													<div class="__title">
-														<span
-															>> Lorem ipsum dolor sit amet,
-															consectetur adipisicing elit. Doloremque
-															sit tenetur voluptatum ratione ab qui
-															soluta fugiat vitae cumque officia
-															maiores iste enim dolorum, odio sed
-															ullam est possimus iure!</span
-														>
-													</div>
-													<div class="__controls">
-														<button>
-															<i class="ti ti-edit"></i>
-														</button>
-
-														<button>
-															<i class="ti ti-check"></i>
-														</button>
-
-														<button>
-															<i class="ti ti-trash"></i>
-														</button>
-													</div>
-												</div>
-												<div class="__description">
-													Lorem, ipsum dolor sit amet consectetur
-													adipisicing elit. Velit earum iste ad fugiat
-													dicta, libero iure perspiciatis facilis amet
-													minus consequatur perferendis autem, ullam
-													praesentium. Ratione aut consectetur autem a.
-												</div>
+										<div class="row">
+											<div class="__title">
+												Lorem ipsum dolor, sit amet consectetur adipisicing
+												elit. Incidunt, vitae? Quisquam rerum cum tenetur
+												neque quas distinctio voluptatem. Minima veniam
+												accusantium tempora cumque deserunt ea sit atque
+												sapiente iusto provident.
+											</div>
+											<div class="__description">
+												Lorem ipsum dolor sit, amet consectetur adipisicing
+												elit. Voluptatem esse nulla aperiam architecto
+												temporibus recusandae laborum saepe tenetur! Non,
+												nihil exercitationem neque ullam iusto eaque libero
+												praesentium est laboriosam dolore?
 											</div>
 										</div>
 
-										<div class="__timestamp">
-											========================[22.02.2004]========================
+										<div class="row">
+											<div class="__timestamp">22.02.2004</div>
+
+											<div class="__controls">
+												<button class="icon">
+													<i class="ti ti-edit"></i>
+												</button>
+
+												<button class="icon">
+													<i class="ti ti-check"></i>
+												</button>
+
+												<button class="icon">
+													<i class="ti ti-trash"></i>
+												</button>
+											</div>
 										</div>
 									</div>`;
   }

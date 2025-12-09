@@ -1,9 +1,13 @@
 @use "../vars/bootstrap" as bs;
+@use "../utils" as *;
 
 section#filters {
 	margin: 20px 0px;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
+	@include on("md") {
+		flex-direction: row;
+	}
 	justify-content: space-between;
 	align-items: flex-end;
 
@@ -11,7 +15,11 @@ section#filters {
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
-		width: calc(50% - 5px);
+		width: 100%;
+
+		@include on("md") {
+			width: calc(50% - 5px);
+		}
 		gap: 10px;
 
 		> .filter {
@@ -28,7 +36,16 @@ section#filters {
 	}
 
 	input {
-		width: calc(50% - 5px);
+		margin-top: 20px;
+		width: 100%;
+		@include on("md") {
+			margin-top: 0px;
+			flex-direction: column;
+			@include on("md") {
+				flex-direction: row;
+			}
+			width: calc(50% - 5px);
+		}
 		height: calc(100% - bs.$default-font-size - 5px);
 	}
 }

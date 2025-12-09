@@ -5,11 +5,23 @@ button {
 	font-size: bs.$default-font-size;
 	padding: 10px 20px;
 	cursor: pointer;
+	background: bs.$color-background-primary;
+	color: bs.$color-text-primary;
 
 	&.primary {
-		background: bs.$color-background-primary;
-		color: bs.$color-text-primary;
 		border: 2px dashed bs.$color-border-primary;
+
+		@include hoverable();
+		&:hover {
+			background-color: bs.$color-background-active;
+			color: bs.$color-text-active;
+		}
+	}
+
+	&.icon {
+		border: none;
+		padding: 5px;
+		border-radius: 5px;
 
 		@include hoverable();
 		&:hover {

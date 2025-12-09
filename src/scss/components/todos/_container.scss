@@ -1,15 +1,25 @@
 @use "../../vars/bootstrap" as bs;
+@use "../../utils" as *;
 
 section#todos {
 	width: 900px;
 
 	> .__title {
 		display: flex;
+		flex-direction: column;
+		@include on("md") {
+			flex-direction: row;
+		}
+
 		justify-content: space-between;
 		gap: 10px;
 
 		> input {
-			width: 50%;
+			width: 100%;
+
+			@include on("md") {
+				width: 50%;
+			}
 		}
 	}
 }

@@ -1,3 +1,9 @@
+@use "../../utils" as *;
+
 aside#page-sidebar {
-	width: 300px;
+	width: 100%;
+
+	@include on("xl") {
+		width: 300px;
+	}
 }

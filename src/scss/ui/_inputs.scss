@@ -12,6 +12,7 @@ input {
 		padding: 10px 20px;
 
 		&::placeholder {
+			font-size: bs.$small-font-size;
 			text-align: center;
 		}
 	}

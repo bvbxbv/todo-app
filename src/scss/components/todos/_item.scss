@@ -1,64 +1,41 @@
 @use "../../vars/bootstrap" as bs;
+@use "../../utils" as *;
 
 .todo-item {
-	display: flex;
-	flex-direction: column;
-	border: 2px dashed bs.$color-border-primary;
+	border: 1px solid bs.$color-background-active;
+	padding: 10px 20px;
 
-	> .group {
-		display: flex;
-		flex-direction: row;
-
-		> .__content {
-			padding-top: 15px;
-			padding-left: 15px;
-			padding-bottom: 15px;
-			> .group {
-				display: flex;
-				justify-content: space-between;
-				> .__controls {
-					display: flex;
-					justify-content: center;
-					flex-direction: row;
-					button {
-						outline: none;
-						border: none;
-						background: bs.$color-background-primary;
-						color: bs.$color-text-primary;
-					}
-				}
-
-				.__title {
-					height: calc(bs.$default-font-size + 5px); // > span.padding-y
-					display: -webkit-box;
-					-webkit-line-clamp: 1;
-					line-clamp: 1;
-					-webkit-box-orient: vertical;
-					overflow: hidden;
-					border-bottom: 2px solid orange;
-
-					> span {
-						padding: 5px;
-					}
-				}
+	.row {
+		&:first-child {
+			margin-bottom: 10px;
+			.__title {
+				width: fit-content;
+				padding-bottom: 5px;
+				line-height: 150%;
+				margin-bottom: 20px;
+				border-bottom: 2px dashed orange;
+				@include clamp-lines(1);
 			}
 
 			.__description {
-				height: calc(bs.$small-font-size * 3);
-				display: -webkit-box;
-				-webkit-line-clamp: 3;
-				line-clamp: 3;
-				-webkit-box-orient: vertical;
-				overflow: hidden;
-
-				margin: 10px 0px;
 				font-size: bs.$small-font-size;
+				line-height: 140%;
+				@include clamp-lines(4);
 			}
 		}
-	}
-	.__timestamp {
-		text-align: right;
-		padding-bottom: 15px;
-		font-size: bs.$ultra-small-font-size;
+
+		&:last-child {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+
+			.__timestamp {
+				font-size: bs.$ultra-small-font-size;
+			}
+
+			.__controls {
+			}
+		}
 	}
 }
