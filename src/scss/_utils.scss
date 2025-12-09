@@ -1,0 +1,6 @@
+@use "./vars/bootstrap" as bs;
+
+@mixin hoverable($duration: bs.$fast-duration) {
+	transition: $duration;
+	cursor: pointer;
+}

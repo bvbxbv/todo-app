@@ -1,11 +1,654 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<title>Todo App</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
 	</head>
 	<body>
-		<div id="app"></div>
+		<div id="app">
+			<header id="page-header">
+				<div class="__content">
+					Hello <span id="header-username">%username%</span>! Ready to planning?
+				</div>
+			</header>
+
+			<div id="page-container">
+				<aside id="page-sidebar">
+					<section id="calendar">
+						<div class="__title">09, December 2025</div>
+
+						<div class="__content">
+							<div class="day completed">1</div>
+							<div class="day completed">2</div>
+							<div class="day completed">3</div>
+							<div class="day completed">4</div>
+							<div class="day">5</div>
+							<div class="day">6</div>
+							<div class="day">7</div>
+							<div class="day">8</div>
+							<div class="day current">9</div>
+							<div class="day">10</div>
+							<div class="day">11</div>
+							<div class="day">12</div>
+							<div class="day">13</div>
+							<div class="day">14</div>
+							<div class="day active">15</div>
+							<div class="day">16</div>
+							<div class="day">17</div>
+							<div class="day">18</div>
+							<div class="day">19</div>
+							<div class="day">20</div>
+							<div class="day">21</div>
+							<div class="day">22</div>
+							<div class="day">23</div>
+							<div class="day">24</div>
+							<div class="day">25</div>
+							<div class="day">26</div>
+							<div class="day">27</div>
+							<div class="day">28</div>
+							<div class="day">29</div>
+							<div class="day">30</div>
+						</div>
+					</section>
+
+					<section id="stats">
+						<div class="stat">
+							<div class="__title">Completed:</div>
+							<div class="__value">0</div>
+						</div>
+
+						<div class="stat">
+							<div class="__title">Pending:</div>
+							<div class="__value">0</div>
+						</div>
+					</section>
+
+					<section id="change-username">
+						<label for="change-username-input">Well, your new name is:</label>
+						<input type="text" name="" id="change-username-input" />
+					</section>
+				</aside>
+
+				<main id="page-content">
+					<div class="__content">
+						<section id="todos">
+							<div class="__title">
+								<input
+									type="text"
+									name="task-title"
+									id="task-title-input"
+									placeholder="title of your task" />
+								<input
+									type="text"
+									name="task-description"
+									id="task-description-input"
+									placeholder="detail of your task" />
+							</div>
+
+							<div class="__content">
+								<section id="filters">
+									<div class="plug">
+										<div class="filter">
+											<label for="filter-name">Filter</label>
+
+											<select name="filter-name" id="filter-name-select">
+												<option value="category">By category</option>
+												<option value="name">By name</option>
+												<option value="date">By date</option>
+											</select>
+										</div>
+
+										<div class="filter">
+											<label for="sort-order">Sort by</label>
+
+											<select name="sort-order" id="sort-order-select">
+												<option value="asc">ASC</option>
+												<option value="desc">DESC</option>
+											</select>
+										</div>
+									</div>
+
+									<input type="search" name="search" id="search-input" />
+								</section>
+
+								<section id="todo-list">
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+
+									<div class="todo-item">
+										<div class="group">
+											<div class="__content">
+												<div class="group">
+													<div class="__title">
+														<span
+															>> Lorem ipsum dolor sit amet,
+															consectetur adipisicing elit. Doloremque
+															sit tenetur voluptatum ratione ab qui
+															soluta fugiat vitae cumque officia
+															maiores iste enim dolorum, odio sed
+															ullam est possimus iure!</span
+														>
+													</div>
+													<div class="__controls">
+														<button>
+															<i class="ti ti-edit"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-check"></i>
+														</button>
+
+														<button>
+															<i class="ti ti-trash"></i>
+														</button>
+													</div>
+												</div>
+												<div class="__description">
+													Lorem, ipsum dolor sit amet consectetur
+													adipisicing elit. Velit earum iste ad fugiat
+													dicta, libero iure perspiciatis facilis amet
+													minus consequatur perferendis autem, ullam
+													praesentium. Ratione aut consectetur autem a.
+												</div>
+											</div>
+										</div>
+
+										<div class="__timestamp">
+											========================[22.02.2004]========================
+										</div>
+									</div>
+								</section>
+
+								<section id="load-more">
+									<button id="load-more-button">Load more</button>
+								</section>
+							</div>
+						</section>
+					</div>
+				</main>
+			</div>
+		</div>
 		<script src="bundle.js"></script>
 	</body>
 </html>

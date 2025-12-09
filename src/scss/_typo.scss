@@ -1,0 +1,16 @@
+@use "./utils" as *;
+
+span:hover {
+	cursor: pointer;
+}
+
+span {
+	&#header-username {
+		@include hoverable();
+
+		&:hover {
+			background-color: white;
+			color: black;
+		}
+	}
+}
