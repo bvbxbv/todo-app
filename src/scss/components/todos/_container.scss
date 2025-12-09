@@ -1,0 +1,15 @@
+@use "../../vars/bootstrap" as bs;
+
+section#todos {
+	width: 900px;
+
+	> .__title {
+		display: flex;
+		justify-content: space-between;
+		gap: 10px;
+
+		> input {
+			width: 50%;
+		}
+	}
+}

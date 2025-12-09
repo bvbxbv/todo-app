@@ -1,0 +1,50 @@
+@use "../../vars/bootstrap" as bs;
+@use "../../utils" as *;
+
+section#calendar {
+	> .__title {
+		text-align: center;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border: 2px dashed bs.$color-border-primary;
+	}
+
+	> .__content {
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		gap: 1px;
+		padding-top: 20px;
+		border-left: 2px dashed white;
+		border-right: 2px dashed white;
+		border-bottom: 2px dashed white;
+
+		> .day {
+			@include hoverable();
+			text-align: center;
+			padding: 10px 0px;
+
+			&.completed {
+				color: bs.$color-text-muted;
+				text-decoration: line-through;
+			}
+
+			&.current {
+				border: 2px dashed bs.$color-border-primary;
+
+				&:hover {
+					border: 2px dashed bs.$color-border-muted;
+				}
+			}
+
+			&.active {
+				background: bs.$color-background-active;
+				color: bs.$color-text-active;
+			}
+
+			&:hover {
+				background: bs.$color-background-active;
+				color: bs.$color-text-active;
+			}
+		}
+	}
+}

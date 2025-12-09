@@ -1,0 +1,39 @@
+@use "../vars/bootstrap" as bs;
+
+input {
+	font-family: bs.$font-primary;
+	font-size: bs.$default-font-size;
+
+	&.primary {
+		outline: none;
+		border: 2px dashed bs.$color-border-primary;
+		background: bs.$color-background-primary;
+		color: bs.$color-text-primary;
+		padding: 10px 20px;
+
+		&::placeholder {
+			text-align: center;
+		}
+	}
+}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	font-family: bs.$font-primary;
+	font-size: bs.$default-font-size;
+	padding: 10px 20px;
+
+	&.primary {
+		border: 2px dashed bs.$color-border-primary;
+		background: bs.$color-background-primary;
+		color: bs.$color-text-primary;
+
+		&:focus {
+			outline: none;
+			border-color: bs.$color-border-primary;
+		}
+	}
+}

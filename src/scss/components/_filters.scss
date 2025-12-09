@@ -1,0 +1,34 @@
+@use "../vars/bootstrap" as bs;
+
+section#filters {
+	margin: 20px 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-end;
+
+	> .plug {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		width: calc(50% - 5px);
+		gap: 10px;
+
+		> .filter {
+			width: 50%;
+
+			display: flex;
+			flex-direction: column;
+
+			> label {
+				text-align: center;
+				padding-bottom: 5px;
+			}
+		}
+	}
+
+	input {
+		width: calc(50% - 5px);
+		height: calc(100% - bs.$default-font-size - 5px);
+	}
+}

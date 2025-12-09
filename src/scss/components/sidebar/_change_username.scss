@@ -1,0 +1,20 @@
+@use "../../vars/bootstrap" as bs;
+
+section#change-username {
+	display: flex;
+	flex-direction: column;
+	border: 2px dashed bs.$color-border-primary;
+	padding: 20px;
+
+	label {
+		text-align: center;
+		font-size: 16px;
+		margin-bottom: 20px;
+	}
+
+	input {
+		&::placeholder {
+			text-align: left;
+		}
+	}
+}

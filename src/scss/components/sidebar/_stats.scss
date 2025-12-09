@@ -1,0 +1,19 @@
+@use "../../vars/bootstrap" as bs;
+
+section#stats {
+	> .stat {
+		border: 2px dashed bs.$color-border-primary;
+		text-align: center;
+		margin: 20px 0px;
+		padding: 20px 0px;
+
+		> .__title {
+			font-size: 18px;
+		}
+
+		> .__value {
+			padding-top: 10px;
+			font-size: 30px;
+		}
+	}
+}

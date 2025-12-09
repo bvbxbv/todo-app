@@ -1,0 +1,11 @@
+@use "../vars/bootstrap" as bs;
+
+header#page-header {
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-size: bs.$default-font-size;
+}
