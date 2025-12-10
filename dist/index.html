@@ -4,9 +4,6 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Todo App</title>
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
 	</head>
 	<body>
 		<div id="app">
@@ -82,55 +79,65 @@
 					<div class="__content">
 						<section id="todos">
 							<div class="__title">
-								<input
-									class="primary"
-									type="text"
-									name="task-title"
-									id="task-title-input"
-									placeholder="what about title?" />
-								<input
-									class="primary"
-									type="text"
-									name="task-description"
-									id="task-description-input"
-									placeholder="little bit of details..." />
+								<form action="">
+									<input
+										class="primary"
+										type="text"
+										name="task-title"
+										id="task-title-input"
+										placeholder="what about title?" />
+									<input
+										class="primary"
+										type="text"
+										name="task-description"
+										id="task-description-input"
+										placeholder="little bit of details..." />
+
+									<button class="primary" type="submit">-></button>
+								</form>
 							</div>
 
 							<div class="__content">
 								<section id="filters">
-									<div class="plug">
-										<div class="filter">
-											<label for="filter-name">Filter</label>
+									<form action="">
+										<div class="group">
+											<div class="filter">
+												<label for="filter-name">Filter</label>
 
-											<select
-												class="primary"
-												name="filter-name"
-												id="filter-name-select">
-												<option value="category">By category</option>
-												<option value="name">By name</option>
-												<option value="date">By date</option>
-											</select>
+												<select
+													class="primary"
+													name="filter-name"
+													id="filter-name-select">
+													<option value="category">By category</option>
+													<option value="name">By name</option>
+													<option value="date">By date</option>
+												</select>
+											</div>
+
+											<div class="filter">
+												<label for="sort-order">Sort</label>
+
+												<select
+													class="primary"
+													name="sort-order"
+													id="sort-order-select">
+													<option value="asc">by ASC</option>
+													<option value="desc">by DESC</option>
+												</select>
+											</div>
 										</div>
 
-										<div class="filter">
-											<label for="sort-order">Sort</label>
-
-											<select
+										<div class="group">
+											<input
 												class="primary"
-												name="sort-order"
-												id="sort-order-select">
-												<option value="asc">by ASC</option>
-												<option value="desc">by DESC</option>
-											</select>
-										</div>
-									</div>
+												type="search"
+												name="search"
+												id="search-input"
+												placeholder="Wanna search something?" />
 
-									<input
-										class="primary"
-										type="search"
-										name="search"
-										id="search-input"
-										placeholder="Wanna search something?" />
+											<button class="primary" type="submit">-></button>
+										</div>
+									</form>
 								</section>
 
 								<section id="todo-list"></section>

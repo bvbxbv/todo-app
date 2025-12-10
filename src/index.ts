@@ -12,11 +12,16 @@ if (todoList !== null) {
 		<div class="todo-item">
 										<div class="row">
 											<div class="__title">
+											<span>
 												Lorem ipsum dolor, sit amet consectetur adipisicing
 												elit. Incidunt, vitae? Quisquam rerum cum tenetur
 												neque quas distinctio voluptatem. Minima veniam
 												accusantium tempora cumque deserunt ea sit atque
 												sapiente iusto provident.
+		</span>
+																								<button class="icon">
+	[X]
+												</button>
 											</div>
 											<div class="__description">
 												Lorem ipsum dolor sit, amet consectetur adipisicing
@@ -32,15 +37,11 @@ if (todoList !== null) {
 
 											<div class="__controls">
 												<button class="icon">
-													<i class="ti ti-edit"></i>
+													[edit]
 												</button>
 
 												<button class="icon">
-													<i class="ti ti-check"></i>
-												</button>
-
-												<button class="icon">
-													<i class="ti ti-trash"></i>
+	[complete]
 												</button>
 											</div>
 										</div>

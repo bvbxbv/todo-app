@@ -9,15 +9,25 @@
 		&:first-child {
 			margin-bottom: 10px;
 			.__title {
-				width: fit-content;
-				padding-bottom: 5px;
-				line-height: 150%;
-				margin-bottom: 20px;
-				border-bottom: 2px dashed orange;
-				@include clamp-lines(1);
+				display: flex;
+				align-items: items-center;
+
+				> span {
+					width: fit-content;
+					padding-bottom: 5px;
+					line-height: 150%;
+					border-bottom: 2px dashed orange;
+					@include clamp-lines(1);
+				}
+
+				> button.icon {
+					border-radius: 0;
+					font-size: bs.$default-font-size;
+				}
 			}
 
 			.__description {
+				margin-top: 20px;
 				font-size: bs.$small-font-size;
 				line-height: 140%;
 				@include clamp-lines(4);
@@ -31,10 +41,14 @@
 			align-items: center;
 
 			.__timestamp {
+				display: flex;
+				align-items: center;
 				font-size: bs.$ultra-small-font-size;
+				height: 30px;
 			}
 
 			.__controls {
+				height: 30px;
 			}
 		}
 	}

@@ -2,6 +2,7 @@
 @use "../utils" as *;
 
 button {
+	font-family: bs.$font-primary;
 	font-size: bs.$default-font-size;
 	padding: 10px 20px;
 	cursor: pointer;
@@ -22,7 +23,7 @@ button {
 		border: none;
 		padding: 5px;
 		border-radius: 5px;
-
+		font-size: bs.$small-font-size;
 		@include hoverable();
 		&:hover {
 			background-color: bs.$color-background-active;

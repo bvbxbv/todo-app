@@ -1,24 +1,41 @@
 @use "../../vars/bootstrap" as bs;
 @use "../../utils" as *;
 
+$container-width: 900px;
+
 section#todos {
-	width: 900px;
+	width: $container-width;
 
 	> .__title {
-		display: flex;
-		flex-direction: column;
-		@include on("md") {
-			flex-direction: row;
-		}
+		> form {
+			display: flex;
+			flex-direction: column;
 
-		justify-content: space-between;
-		gap: 10px;
-
-		> input {
-			width: 100%;
+			border: 2px solid bs.$color-border-primary;
+			padding: 10px;
 
 			@include on("md") {
-				width: 50%;
+				flex-direction: row;
+			}
+
+			justify-content: space-between;
+			gap: 10px;
+
+			> input {
+				&:first-child {
+					width: 100%;
+					@include on("md") {
+						width: calc(50% - 10px);
+					}
+				}
+
+				&:nth-child(2) {
+					width: 100%;
+					@include on("md") {
+						margin-left: auto;
+						width: calc(50% - 74px);
+					}
+				}
 			}
 		}
 	}

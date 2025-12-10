@@ -28,7 +28,9 @@ export default {
 	},
 	mode: "development",
 	devServer: {
-		host: "0.0.0.0",
+		host: "localhost",
+		hot: true,
+		liveReload: true,
 		static: "./dist",
 		port: 3000,
 		open: true,

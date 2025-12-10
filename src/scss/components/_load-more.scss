@@ -1,3 +1,5 @@
+@use "../utils" as *;
+
 section#load-more {
 	display: flex;
 	justify-content: center;
@@ -5,7 +7,11 @@ section#load-more {
 
 	margin: 20px 0px;
 	button#load-more-button {
-		max-width: 200px;
-		width: 200px;
+		width: 100%;
+
+		@include on("md") {
+			max-width: 200px;
+			width: 200px;
+		}
 	}
 }
