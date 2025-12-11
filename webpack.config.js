@@ -5,11 +5,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default {
-	entry: "./src/index.ts",
+	entry: "./src/index.tsx",
 	module: {
 		rules: [
 			{
-				test: /\.ts$/,
+				test: /\.tsx?$/,
 				use: "ts-loader",
 				exclude: /node_modules/,
 			},
@@ -20,7 +20,7 @@ export default {
 		],
 	},
 	resolve: {
-		extensions: [".ts", ".js"],
+		extensions: [".ts", ".tsx", ".js"],
 	},
 	output: {
 		filename: "bundle.js",
