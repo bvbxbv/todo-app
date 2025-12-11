@@ -1,6 +1,8 @@
 import { Calendar } from "./components/Calendar";
+import { StatsContainer } from "./components/Stats/StatsContainer";
 import { TodoItem } from "./components/TodoItem";
 import "./scss/main.scss";
+import { StatsContainerItem } from "./components/Stats/StatsContainerItem";
 export function App() {
   const calendar = {
     title: "10, December 2025",
@@ -48,19 +50,11 @@ export function App() {
       </header>
       <div id="page-container">
         <aside id="page-sidebar">
-          {/* calendar */}
           <Calendar calendar={calendar} />
-          <section id="stats">
-            <div className="stat">
-              <div className="__title">Completed:</div>
-              <div className="__value">0</div>
-            </div>
-
-            <div className="stat">
-              <div className="__title">Pending:</div>
-              <div className="__value">0</div>
-            </div>
-          </section>
+          <StatsContainer>
+            <StatsContainerItem title="Completed:" value={1} />
+            <StatsContainerItem title="Pending:" value={0} />
+          </StatsContainer>
 
           <section id="change-username">
             <label htmlFor="change-username-input">
