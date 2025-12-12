@@ -1,4 +1,4 @@
-@use "../vars/bootstrap" as bs;
+@use '../vars/bootstrap' as bs;
 
 input {
 	font-family: bs.$font-primary;
@@ -31,6 +31,7 @@ select {
 		border: 2px dashed bs.$color-border-primary;
 		background: bs.$color-background-primary;
 		color: bs.$color-text-primary;
+		text-align: center;
 
 		&:focus {
 			outline: none;

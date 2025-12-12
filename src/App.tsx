@@ -1,12 +1,14 @@
+import './scss/main.scss';
 import { Calendar } from './components/Calendar';
 import { StatsContainer } from './components/Stats/StatsContainer';
 import { TodoItem } from './components/TodoItem';
-import './scss/main.scss';
 import { StatsContainerItem } from './components/Stats/StatsContainerItem';
 import { useEffect, useState } from 'react';
 import { CalendarData, CalendarItem } from './types/calendar';
 import { Input } from './components/ui/Input';
 import { Button } from './components/ui/Button';
+import { SelectContainer } from './components/ui/Select/SelectContainer';
+import { SelectContainerItem } from './components/ui/Select/SelectContainerItem';
 
 export function App() {
 	const [calendarItems, setCalendarItems] = useState<CalendarData>({
@@ -80,30 +82,41 @@ export function App() {
 									<form action=''>
 										<div className='group'>
 											<div className='filter'>
-												<label htmlFor='filter-name'>Filter</label>
-
-												<select
-													className='primary'
+												<SelectContainer
 													name='filter-name'
+													labelText='Filter'
 													id='filter-name-select'
 												>
-													<option value='category'>By category</option>
-													<option value='name'>By name</option>
-													<option value='date'>By date</option>
-												</select>
+													<SelectContainerItem
+														value='category'
+														text='By category'
+													/>
+													<SelectContainerItem
+														value='name'
+														text='By name'
+													/>
+													<SelectContainerItem
+														value='date'
+														text='By date'
+													/>
+												</SelectContainer>
 											</div>
 
 											<div className='filter'>
-												<label htmlFor='sort-order'>Sort</label>
-
-												<select
-													className='primary'
+												<SelectContainer
 													name='sort-order'
+													labelText='Sort'
 													id='sort-order-select'
 												>
-													<option value='asc'>by ASC</option>
-													<option value='desc'>by DESC</option>
-												</select>
+													<SelectContainerItem
+														value='asc'
+														text='Ascending'
+													/>
+													<SelectContainerItem
+														value='desc'
+														text='Descending'
+													/>
+												</SelectContainer>
 											</div>
 										</div>
 
