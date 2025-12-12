@@ -6,6 +6,7 @@ import { StatsContainerItem } from './components/Stats/StatsContainerItem';
 import { useEffect, useState } from 'react';
 import { CalendarData, CalendarItem } from './types/calendar';
 import { Input } from './components/ui/Input';
+import { Button } from './components/ui/Button';
 
 export function App() {
 	const [calendarItems, setCalendarItems] = useState<CalendarData>({
@@ -70,9 +71,7 @@ export function App() {
 										placeholder='little bit of details...'
 									/>
 
-									<button className='primary' type='submit'>
-										&#8594;
-									</button>
+									<Button text='&#8594;' />
 								</form>
 							</div>
 
@@ -117,9 +116,7 @@ export function App() {
 												placeholder='Wanna search something?'
 											/>
 
-											<button className='primary' type='submit'>
-												&#8594;
-											</button>
+											<Button text='&#8594;' type='submit' />
 										</div>
 									</form>
 								</section>
@@ -133,9 +130,7 @@ export function App() {
 								</section>
 
 								<section id='load-more'>
-									<button className='primary' id='load-more-button'>
-										Load more
-									</button>
+									<Button text='Load more' id='load-more-button' />
 								</section>
 							</div>
 						</section>
