@@ -9,8 +9,14 @@ import { Input } from './components/ui/Input';
 import { Button } from './components/ui/Button';
 import { SelectContainer } from './components/ui/Select/SelectContainer';
 import { SelectContainerItem } from './components/ui/Select/SelectContainerItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './app/store';
+import { addTodo } from './app/todoSlice';
 
 export function App() {
+	const todos = useSelector((state: RootState) => state.todos.items);
+	const dispatch = useDispatch();
+
 	const [calendarItems, setCalendarItems] = useState<CalendarData>({
 		title: '11, Dec 2025',
 		items: Array.from(
@@ -73,7 +79,20 @@ export function App() {
 										placeholder='little bit of details...'
 									/>
 
-									<Button text='&#8594;' />
+									<Button
+										text='&#8594;'
+										onClick={() =>
+											dispatch(
+												addTodo({
+													id: crypto.randomUUID(),
+													title: 'qwe',
+													detail: 'qwe',
+													timestamp: 'qwe',
+													done: false,
+												}),
+											)
+										}
+									/>
 								</form>
 							</div>
 
@@ -135,11 +154,14 @@ export function App() {
 								</section>
 
 								<section id='todo-list'>
-									<TodoItem />
-									<TodoItem />
-									<TodoItem />
-									<TodoItem />
-									<TodoItem />
+									{todos.map((todo) => (
+										<TodoItem
+											key={todo.id}
+											title={todo.title}
+											detail={todo.detail}
+											timestamp={todo.timestamp}
+										/>
+									))}
 								</section>
 
 								<section id='load-more'>
