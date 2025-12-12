@@ -153,6 +153,15 @@ export function App() {
 									</form>
 								</section>
 
+								{todos.length === 0 && (
+									<div id='todos-empty'>
+										<p>
+											There was a hole here.
+											<br /> Do you want it gone?
+										</p>
+									</div>
+								)}
+
 								<section id='todo-list'>
 									{todos.map((todo) => (
 										<TodoItem
