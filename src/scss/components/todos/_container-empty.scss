@@ -1,0 +1,21 @@
+@use '../../vars/bootstrap' as bs;
+@use '../../utils' as *;
+
+#todos-empty {
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: center;
+
+	border: 2px solid bs.$color-border-primary;
+	padding: 50px;
+
+	p {
+		&::first-line {
+			font-size: bs.$big-font-size;
+			line-height: 150%;
+		}
+
+		text-align: center;
+	}
+}
