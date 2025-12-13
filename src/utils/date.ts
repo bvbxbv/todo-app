@@ -8,3 +8,8 @@ export const formatDate = (date: Date) => {
 		minute: '2-digit',
 	});
 };
+
+export const formatTime = (date: Date) => {
+	const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+	return time;
+};
