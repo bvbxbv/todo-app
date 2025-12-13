@@ -1,0 +1,39 @@
+.toast {
+	max-width: 70vw;
+	min-height: 0px;
+	background-color: #000;
+	color: #fff;
+
+	border: 2px dashed #fff;
+
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
+
+	padding: 10px 20px;
+
+	> .__title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+		border-bottom: 1px solid #fff;
+
+		> .__controls {
+			display: flex;
+			justify-content: right;
+
+			button {
+				padding: 0px;
+
+				border: none;
+			}
+		}
+	}
+
+	> .__content {
+		padding-bottom: 10px;
+		line-height: 150%;
+	}
+}

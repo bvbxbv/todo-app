@@ -1,17 +1,20 @@
 import './scss/main.scss';
 import { Calendar } from './components/Calendar';
-import { StatsContainer } from './components/Stats/StatsContainer';
+import { StatsContainer } from './components/stats/StatsContainer';
 import { TodoItem } from './components/TodoItem';
-import { StatsContainerItem } from './components/Stats/StatsContainerItem';
-import { useEffect, useState } from 'react';
+import { StatsContainerItem } from './components/stats/StatsContainerItem';
+import { useState } from 'react';
 import { CalendarData, CalendarItem } from './types/calendar';
 import { Input } from './components/ui/Input';
 import { Button } from './components/ui/Button';
 import { SelectContainer } from './components/ui/Select/SelectContainer';
 import { SelectContainerItem } from './components/ui/Select/SelectContainerItem';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './app/store';
-import { addTodo } from './app/todoSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from './store/store';
+import { AddTodoForm } from './components/forms/AddTodoForm';
+import { TodoFormData } from './types/forms';
+import { addTodo } from './store/todoSlice';
+import { formatDate } from './utils/date';
 
 export function App() {
 	const todos = useSelector((state: RootState) => state.todos.items);
@@ -29,7 +32,18 @@ export function App() {
 		),
 	});
 
-	useEffect(() => {}, []);
+	const onAddTodoFormSubmit = (data: TodoFormData): void => {
+		const detail = data.description?.length === 0 ? 'No detail provided' : data.description;
+		dispatch(
+			addTodo({
+				id: crypto.randomUUID(),
+				title: data.title,
+				detail: detail ?? '',
+				timestamp: formatDate(new Date()),
+				done: false,
+			}),
+		);
+	};
 
 	return (
 		<>
@@ -48,8 +62,6 @@ export function App() {
 
 					<section id='change-username'>
 						<Input
-							type='text'
-							className='primary'
 							labelText='Well, your new name is:'
 							name='change-username'
 							id='change-username-input'
@@ -62,38 +74,7 @@ export function App() {
 					<div className='__content'>
 						<section id='todos'>
 							<div className='__title'>
-								<form action=''>
-									<Input
-										type='text'
-										className='primary'
-										name='task-title'
-										id='task-title-input'
-										placeholder='what about title?'
-									/>
-
-									<Input
-										type='text'
-										className='primary'
-										name='task-description'
-										id='task-description-input'
-										placeholder='little bit of details...'
-									/>
-
-									<Button
-										text='&#8594;'
-										onClick={() =>
-											dispatch(
-												addTodo({
-													id: crypto.randomUUID(),
-													title: 'qwe',
-													detail: 'qwe',
-													timestamp: 'qwe',
-													done: false,
-												}),
-											)
-										}
-									/>
-								</form>
+								<AddTodoForm onSubmit={onAddTodoFormSubmit} />
 							</div>
 
 							<div className='__content'>
@@ -141,8 +122,6 @@ export function App() {
 
 										<div className='group'>
 											<Input
-												type='text'
-												className='primary'
 												name='search'
 												id='search-input'
 												placeholder='Wanna search something?'
