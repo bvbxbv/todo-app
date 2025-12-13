@@ -3,9 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 interface ToastProps {
 	text: string | undefined;
 	trigger: number;
+	delay?: number;
 }
 
-export function Toast({ text, trigger }: ToastProps) {
+export function Toast({ text, trigger, delay = 2000 }: ToastProps) {
 	const [hidden, setHidden] = useState<boolean>();
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	useEffect(() => {
@@ -16,12 +17,12 @@ export function Toast({ text, trigger }: ToastProps) {
 		setHidden(false);
 		intervalRef.current = setTimeout(() => {
 			setHidden(true);
-		}, 1000);
+		}, delay);
 	}, [trigger]);
 
 	return (
 		<>
-			<div className={'toast ' + (hidden ? 'hidden' : '')}>
+			<div className={'toast ' + (hidden ? 'exit' : 'enter')}>
 				<div className='__title'>
 					<span>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</span>
 					<div className='__controls'>
