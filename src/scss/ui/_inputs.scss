@@ -3,6 +3,7 @@
 input {
 	font-family: bs.$font-primary;
 	font-size: bs.$default-font-size;
+	text-align: center;
 
 	&.primary {
 		outline: none;
@@ -10,6 +11,10 @@ input {
 		background: bs.$color-background-primary;
 		color: bs.$color-text-primary;
 		padding: 10px 20px;
+
+		&.error {
+			border: 2px dashed bs.$color-highlight-error;
+		}
 
 		&::placeholder {
 			font-size: bs.$small-font-size;

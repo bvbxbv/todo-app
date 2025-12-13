@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { Toast } from '../Toast';
@@ -11,7 +11,7 @@ interface AddTodoFormProps {
 }
 
 export function AddTodoForm({ onSubmit }: AddTodoFormProps) {
-	const [toastText, setToastText] = useState<string>();
+	const [toastText, setToastText] = useState<string>('');
 	const [toastTrigger, setToastTrigger] = useState<number>(0);
 
 	const onError = (errors: FieldErrors<TodoFormData>) => {
@@ -28,19 +28,23 @@ export function AddTodoForm({ onSubmit }: AddTodoFormProps) {
 		reset,
 	} = useForm<TodoFormData>({
 		resolver: zodResolver(todoSchema),
+		mode: 'onChange',
 	});
 
 	const _onSubmit = (data: TodoFormData) => {
 		onSubmit(data);
 		reset();
 	};
-
 	return (
 		<>
-			{errors.title !== undefined && <Toast text={toastText} trigger={toastTrigger} />}
+			{toastText !== '' && <Toast text={toastText} trigger={toastTrigger} />}
 
 			<form action='' onSubmit={handleSubmit(_onSubmit, onError)}>
-				<Input {...register('title')} placeholder='what about title?' />
+				<Input
+					{...register('title')}
+					placeholder='what about title?'
+					className={errors.title ? 'primary error' : 'primary'}
+				/>
 				<Input {...register('description')} placeholder='little bit of details...' />
 				<Button type='submit' text='&#8594;' />
 			</form>
