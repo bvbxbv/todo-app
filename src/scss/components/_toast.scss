@@ -1,0 +1,76 @@
+@use '../vars/bootstrap' as bs;
+@use '../utils' as *;
+
+@keyframes toastIn {
+	from {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes toastOut {
+	from {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	to {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+}
+
+$paddingX: 20px;
+$paddingY: 10px;
+
+.toast {
+	max-width: calc(100% - $paddingX);
+	@include on('md') {
+		max-width: 70vw;
+	}
+
+	min-height: 0px;
+	background-color: bs.$color-background-primary;
+	color: bs.$color-text-primary;
+	border: 2px dashed bs.$color-border-primary;
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
+
+	padding: $paddingY $paddingX;
+
+	&.enter {
+		animation: toastIn 0.25s forwards;
+	}
+
+	&.exit {
+		animation: toastOut 0.25s forwards;
+	}
+	> .__title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 20px;
+		margin-bottom: 20px;
+		border-bottom: 1px solid #fff;
+
+		> .__controls {
+			display: flex;
+			justify-content: right;
+
+			button {
+				padding: 0px;
+
+				border: none;
+			}
+		}
+	}
+
+	> .__content {
+		padding-bottom: 20px;
+		line-height: 150%;
+	}
+}
