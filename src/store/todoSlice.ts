@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Todo } from '../types/todos';
 import { saveTodo, getTodos } from '../app/indexdb/todos';
+import { error, log } from '../utils/logger';
 
 interface TodosState {
 	items: Todo[];
@@ -18,12 +19,10 @@ export const todosSlice = createSlice({
 			state.items.push(action.payload);
 			saveTodo(action.payload)
 				.then((result) => {
-					// FIXME: add logger
-					console.log('success', result);
+					log('success', result);
 				})
 				.catch((result) => {
-					// FIXME: add logger
-					console.error('failed', result);
+					error('failed', result);
 				});
 		},
 	},
