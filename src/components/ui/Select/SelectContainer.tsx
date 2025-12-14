@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 interface SelectContainerProps {
 	name: string;
@@ -6,6 +6,8 @@ interface SelectContainerProps {
 	className?: string | undefined;
 	id: string;
 	children: React.ReactNode;
+	onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+	value: string;
 }
 
 export function SelectContainer({
@@ -14,12 +16,20 @@ export function SelectContainer({
 	className = 'primary',
 	id,
 	children,
+	onChange,
+	value,
 }: SelectContainerProps) {
 	return (
 		<>
 			<label htmlFor={id}>{labelText}</label>
 
-			<select className={className} name={name} id={id}>
+			<select
+				value={value}
+				className={className}
+				name={name}
+				id={id}
+				onChange={(e) => onChange(e)}
+			>
 				{children}
 			</select>
 		</>

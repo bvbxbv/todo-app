@@ -3,7 +3,7 @@ import { Calendar } from './components/Calendar';
 import { StatsContainer } from './components/stats/StatsContainer';
 import { TodoItem } from './components/TodoItem';
 import { StatsContainerItem } from './components/stats/StatsContainerItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CalendarData, CalendarItem } from './types/calendar';
 import { Input } from './components/ui/Input';
 import { Button } from './components/ui/Button';
@@ -45,6 +45,34 @@ export function App() {
 		);
 	};
 
+	const [filterName, setFilterName] = useState('all');
+	const [sortOrder, setSortOrder] = useState('asc');
+	const [query, setQuery] = useState('');
+
+	const sortedTodos = [...todos]
+		.sort((a, b) => {
+			if (sortOrder === 'asc') {
+				return a.title.localeCompare(b.title);
+			}
+			return b.title.localeCompare(a.title);
+		})
+		.filter((todo) => {
+			if (!query) return true;
+
+			const _query = query.toLowerCase();
+			const _todo = {
+				title: todo.title.toLowerCase(),
+				detail: todo.detail.toLowerCase(),
+				timestamp: todo.timestamp.toLowerCase(),
+			} as const;
+
+			if (filterName === 'all') {
+				return Object.values(_todo).some((key) => key.includes(_query));
+			}
+
+			const key = filterName as keyof typeof _todo;
+			return _todo[key].includes(_query);
+		});
 	return (
 		<>
 			<header id='page-header'>
@@ -86,17 +114,23 @@ export function App() {
 													name='filter-name'
 													labelText='Filter'
 													id='filter-name-select'
+													onChange={(e) => setFilterName(e.target.value)}
+													value={filterName}
 												>
 													<SelectContainerItem
-														value='category'
-														text='By category'
+														value='all'
+														text='No matter what'
 													/>
 													<SelectContainerItem
-														value='name'
-														text='By name'
+														value='detail'
+														text='By description'
 													/>
 													<SelectContainerItem
-														value='date'
+														value='title'
+														text='By title'
+													/>
+													<SelectContainerItem
+														value='timestamp'
 														text='By date'
 													/>
 												</SelectContainer>
@@ -107,6 +141,8 @@ export function App() {
 													name='sort-order'
 													labelText='Sort'
 													id='sort-order-select'
+													value={sortOrder}
+													onChange={(e) => setSortOrder(e.target.value)}
 												>
 													<SelectContainerItem
 														value='asc'
@@ -125,6 +161,7 @@ export function App() {
 												name='search'
 												id='search-input'
 												placeholder='Wanna search something?'
+												onChange={(e) => setQuery(e.target.value)}
 											/>
 
 											<Button text='&#8594;' type='submit' />
@@ -132,7 +169,7 @@ export function App() {
 									</form>
 								</section>
 
-								{todos.length === 0 && (
+								{sortedTodos.length === 0 && (
 									<div id='todos-empty'>
 										<p>
 											There was a hole here.
@@ -142,7 +179,7 @@ export function App() {
 								)}
 
 								<section id='todo-list'>
-									{todos.map((todo) => (
+									{sortedTodos.map((todo) => (
 										<TodoItem
 											key={todo.id}
 											title={todo.title}

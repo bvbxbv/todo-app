@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 interface InputProps {
 	type?: string;
 	className?: string;
@@ -5,6 +7,7 @@ interface InputProps {
 	id?: string;
 	labelText?: string | null;
 	placeholder?: string;
+	onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function Input({
@@ -14,6 +17,7 @@ export function Input({
 	name,
 	id,
 	placeholder = '',
+	onChange,
 	...props
 }: InputProps) {
 	return (
@@ -25,6 +29,12 @@ export function Input({
 				name={name}
 				placeholder={placeholder}
 				id={id}
+				onChange={(e) => {
+					if (onChange === undefined) {
+						return;
+					}
+					onChange(e);
+				}}
 				{...props}
 			/>
 		</>
