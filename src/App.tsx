@@ -3,7 +3,7 @@ import { Calendar } from './components/Calendar';
 import { StatsContainer } from './components/stats/StatsContainer';
 import { TodoItem } from './components/TodoItem';
 import { StatsContainerItem } from './components/stats/StatsContainerItem';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { CalendarData, CalendarItem } from './types/calendar';
 import { Input } from './components/ui/Input';
 import { Button } from './components/ui/Button';
@@ -15,6 +15,7 @@ import { AddTodoForm } from './components/forms/AddTodoForm';
 import { TodoFormData } from './types/forms';
 import { addTodo } from './store/todoSlice';
 import { formatDate } from './utils/date';
+import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
 
 export function App() {
 	const todos = useSelector((state: RootState) => state.todos.items);
@@ -45,34 +46,15 @@ export function App() {
 		);
 	};
 
-	const [filterName, setFilterName] = useState('all');
-	const [sortOrder, setSortOrder] = useState('asc');
+	const [filterName, setFilterName] = useState<FilterName>('all');
+	const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 	const [query, setQuery] = useState('');
 
-	const sortedTodos = [...todos]
-		.sort((a, b) => {
-			if (sortOrder === 'asc') {
-				return a.title.localeCompare(b.title);
-			}
-			return b.title.localeCompare(a.title);
-		})
-		.filter((todo) => {
-			if (!query) return true;
+	const sortedTodos = useMemo(
+		() => applyTodoFilters(todos, sortOrder, filterName, query),
+		[todos, filterName, sortOrder, query],
+	);
 
-			const _query = query.toLowerCase();
-			const _todo = {
-				title: todo.title.toLowerCase(),
-				detail: todo.detail.toLowerCase(),
-				timestamp: todo.timestamp.toLowerCase(),
-			} as const;
-
-			if (filterName === 'all') {
-				return Object.values(_todo).some((key) => key.includes(_query));
-			}
-
-			const key = filterName as keyof typeof _todo;
-			return _todo[key].includes(_query);
-		});
 	return (
 		<>
 			<header id='page-header'>
@@ -114,7 +96,9 @@ export function App() {
 													name='filter-name'
 													labelText='Filter'
 													id='filter-name-select'
-													onChange={(e) => setFilterName(e.target.value)}
+													onChange={(e) =>
+														setFilterName(e.target.value as FilterName)
+													}
 													value={filterName}
 												>
 													<SelectContainerItem
@@ -142,7 +126,9 @@ export function App() {
 													labelText='Sort'
 													id='sort-order-select'
 													value={sortOrder}
-													onChange={(e) => setSortOrder(e.target.value)}
+													onChange={(e) =>
+														setSortOrder(e.target.value as SortOrder)
+													}
 												>
 													<SelectContainerItem
 														value='asc'
