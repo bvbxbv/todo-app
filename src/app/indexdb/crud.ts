@@ -21,3 +21,14 @@ export async function getAllItems<T>(storeName: string): Promise<T[]> {
 		request.onerror = () => reject(request.error);
 	});
 }
+
+export async function deleteItem(storeName: string, id: number | string) {
+	const db = await openDatabase(storeName);
+	return new Promise<void>((resolve, reject) => {
+		const tx = db.transaction(storeName, 'readwrite');
+		const store = tx.objectStore(storeName);
+		const request = store.delete(id);
+		request.onsuccess = () => resolve();
+		request.onerror = () => reject(request.error);
+	});
+}

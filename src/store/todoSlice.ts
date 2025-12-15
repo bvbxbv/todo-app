@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Todo } from '../types/todos';
-import { saveTodo, getTodos } from '../app/indexdb/todos';
+import { saveTodo, getTodos, removeTodo as _removeTodo } from '../app/indexdb/todos';
 import { error, log } from '../utils/logger';
 
 interface TodosState {
@@ -25,8 +25,11 @@ export const todosSlice = createSlice({
 					error('failed', result);
 				});
 		},
+		removeTodo(state, action: PayloadAction<string>) {
+			state.items = state.items.filter((todo) => todo.id !== action.payload);
+		},
 	},
 });
 
-export const { addTodo } = todosSlice.actions;
+export const { addTodo, removeTodo } = todosSlice.actions;
 export default todosSlice.reducer;

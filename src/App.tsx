@@ -13,9 +13,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './store/store';
 import { AddTodoForm } from './components/forms/AddTodoForm';
 import { TodoFormData } from './types/forms';
-import { addTodo } from './store/todoSlice';
+import { addTodo, removeTodo } from './store/todoSlice';
 import { formatDate } from './utils/date';
 import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
+import * as crud from './app/indexdb/todos';
+
+// import { removeTodo as _removeTodo } from './app/indexdb/todos';
+import { error, log } from './utils/logger';
 
 export function App() {
 	const todos = useSelector((state: RootState) => state.todos.items);
@@ -45,6 +49,20 @@ export function App() {
 			}),
 		);
 	};
+
+	const onDelete = (id: string) => {
+		dispatch(removeTodo(id));
+		try {
+			crud.removeTodo(id);
+			log('deleted', id);
+		} catch (e) {
+			error('not deleted, error', e);
+		}
+	};
+
+	const onEdit = (id: string) => {};
+
+	const onComplete = (id: string) => {};
 
 	const [filterName, setFilterName] = useState<FilterName>('all');
 	const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -167,10 +185,14 @@ export function App() {
 								<section id='todo-list'>
 									{sortedTodos.map((todo) => (
 										<TodoItem
+											id={todo.id}
 											key={todo.id}
 											title={todo.title}
 											detail={todo.detail}
 											timestamp={todo.timestamp}
+											onClose={(id) => onDelete(id)}
+											onEdit={(id) => onEdit(id)}
+											onComplete={(id) => onComplete(id)}
 										/>
 									))}
 								</section>
