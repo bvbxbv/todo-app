@@ -13,12 +13,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './store/store';
 import { AddTodoForm } from './components/forms/AddTodoForm';
 import { TodoFormData } from './types/forms';
-import { addTodo, removeTodo } from './store/todoSlice';
+import { addTodo, removeTodo, updateTodo } from './store/todoSlice';
 import { formatDate } from './utils/date';
 import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
 import * as crud from './app/indexdb/todos';
-
-// import { removeTodo as _removeTodo } from './app/indexdb/todos';
 import { error, log } from './utils/logger';
 
 export function App() {
@@ -62,7 +60,23 @@ export function App() {
 
 	const onEdit = (id: string) => {};
 
-	const onComplete = (id: string) => {};
+	const onComplete = (id: string) => {
+		crud.getTodo(id).then((item) => {
+			if (item === undefined) {
+				error('Todo to complete is undefined');
+				return;
+			}
+			dispatch(
+				updateTodo({
+					id: item?.id,
+					title: item.title,
+					detail: item.detail,
+					timestamp: item?.timestamp,
+					done: true,
+				}),
+			);
+		});
+	};
 
 	const [filterName, setFilterName] = useState<FilterName>('all');
 	const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -193,6 +207,7 @@ export function App() {
 											onClose={(id) => onDelete(id)}
 											onEdit={(id) => onEdit(id)}
 											onComplete={(id) => onComplete(id)}
+											done={todo.done}
 										/>
 									))}
 								</section>

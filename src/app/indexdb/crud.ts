@@ -11,6 +11,18 @@ export async function addItem<T>(storeName: string, item: T) {
 	});
 }
 
+export async function getItemById<T>(storeName: string, id: IDBValidKey): Promise<T | undefined> {
+	const db = await openDatabase(storeName);
+	return new Promise((resolve, reject) => {
+		const tx = db.transaction(storeName, 'readonly');
+		const store = tx.objectStore(storeName);
+		const request = store.get(id);
+
+		request.onsuccess = () => resolve(request.result as T | undefined);
+		request.onerror = () => reject(request.error);
+	});
+}
+
 export async function getAllItems<T>(storeName: string): Promise<T[]> {
 	const db = await openDatabase(storeName);
 	return new Promise((resolve, reject) => {
@@ -18,6 +30,18 @@ export async function getAllItems<T>(storeName: string): Promise<T[]> {
 		const store = tx.objectStore(storeName);
 		const request = store.getAll();
 		request.onsuccess = () => resolve(request.result as T[]);
+		request.onerror = () => reject(request.error);
+	});
+}
+
+export async function updateItem<T>(storeName: string, item: T, key?: IDBValidKey): Promise<void> {
+	const db = await openDatabase(storeName);
+
+	return new Promise((resolve, reject) => {
+		const tx = db.transaction(storeName, 'readwrite');
+		const store = tx.objectStore(storeName);
+		const request = key ? store.put(item, key) : store.put(item);
+		request.onsuccess = () => resolve();
 		request.onerror = () => reject(request.error);
 	});
 }
