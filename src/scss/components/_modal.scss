@@ -82,3 +82,7 @@ section#modal {
 		}
 	}
 }
+
+body.modal-open {
+	overflow: hidden;
+}

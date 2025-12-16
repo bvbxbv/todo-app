@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 interface ModalProps {
 	title: string;
@@ -8,6 +8,18 @@ interface ModalProps {
 }
 
 export function Modal({ title, children, isActive, onClose }: ModalProps) {
+	useEffect(() => {
+		if (isActive) {
+			document.body.classList.add('modal-open');
+		} else {
+			document.body.classList.remove('modal-open');
+		}
+
+		return () => {
+			document.body.classList.remove('modal-open');
+		};
+	}, [isActive]);
+
 	return (
 		<section className={isActive ? 'active' : 'hidden'} id='modal'>
 			<div className='__wrap'>
