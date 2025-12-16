@@ -19,6 +19,7 @@ import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
 import * as crud from './app/indexdb/todos';
 import { error, log } from './utils/logger';
 import { Modal } from './components/Modal';
+import { getItemById } from './app/indexdb/crud';
 
 export function App() {
 	const todos = useSelector((state: RootState) => state.todos.items);
@@ -61,6 +62,18 @@ export function App() {
 
 	const onEdit = (id: string) => {
 		setIsEditModalActive(!isEditModalActive);
+
+		setTodoId(id);
+
+		crud.getTodo(id).then((result) => {
+			log('', result);
+			if (result?.title === undefined || result.detail === undefined) {
+				return;
+			}
+
+			setTodoTitle(result.title);
+			setTodoDescription(result.detail !== 'No detail provided' ? result.detail : '');
+		});
 	};
 
 	const onComplete = (id: string) => {
@@ -90,6 +103,34 @@ export function App() {
 		[todos, filterName, sortOrder, query],
 	);
 
+	const [todoTitle, setTodoTitle] = useState<string>('');
+	const [todoDescription, setTodoDescription] = useState<string>('');
+	const [todoId, setTodoId] = useState<string>('');
+	const onEditFormSubmit = () => {
+		crud.getTodo(todoId).then((todo) => {
+			if (todo?.timestamp === undefined || todo.done === undefined) {
+				error('[edit form submit] todo.timestamp or todo.done. Payload: ', todo);
+				return;
+			}
+
+			if (todoTitle.length === 0) {
+				error('[edit form submit] todo.title is required');
+				return;
+			}
+
+			const _todo = {
+				id: todoId,
+				title: todoTitle,
+				detail: todoDescription,
+				timestamp: todo?.timestamp,
+				done: todo?.done,
+			};
+
+			dispatch(updateTodo(_todo));
+		});
+		setIsEditModalActive(false);
+	};
+
 	return (
 		<>
 			<Modal
@@ -97,19 +138,27 @@ export function App() {
 				isActive={isEditModalActive}
 				onClose={() => setIsEditModalActive(false)}
 			>
-				<Input
-					labelText='New title'
-					name='change-title'
-					id='change-todo-title'
-					placeholder='Your fixed title'
-				/>
+				<form action=''>
+					<Input
+						labelText='New title'
+						name='change-title'
+						id='change-todo-title'
+						placeholder='Your fixed title'
+						onChange={(e) => setTodoTitle(e.target.value)}
+						value={todoTitle}
+					/>
 
-				<Input
-					labelText='New description'
-					name='change-description'
-					id='change-todo-description'
-					placeholder='New beautiful description'
-				/>
+					<Input
+						labelText='New description'
+						name='change-description'
+						id='change-todo-description'
+						placeholder='New beautiful description'
+						onChange={(e) => setTodoDescription(e.target.value)}
+						value={todoDescription}
+					/>
+
+					<Button text='> I want to edit' onClick={onEditFormSubmit} />
+				</form>
 			</Modal>
 
 			<header id='page-header'>

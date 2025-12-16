@@ -46,7 +46,7 @@ section#modal {
 		animation: onHide 0.2s forwards;
 	}
 
-	> .__wrap {
+	.__wrap {
 		width: 90%;
 		background-color: bs.$color-background-primary;
 		border: 2px dashed bs.$color-border-primary;
@@ -57,7 +57,7 @@ section#modal {
 		display: flex;
 		flex-direction: column;
 
-		> .__title {
+		.__title {
 			border-bottom: 2px dashed bs.$color-border-primary;
 			padding: 20px;
 			display: flex;
@@ -70,14 +70,20 @@ section#modal {
 			}
 		}
 
-		> .__content {
-			padding: 20px;
-			display: flex;
-			flex-direction: column;
+		.__content {
+			form {
+				padding: 20px;
+				display: flex;
+				flex-direction: column;
 
-			label {
-				text-align: center;
-				padding: 20px 0px;
+				label {
+					text-align: center;
+					padding: 20px 0px;
+				}
+
+				button {
+					margin-top: 20px;
+				}
 			}
 		}
 	}
