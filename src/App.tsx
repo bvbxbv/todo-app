@@ -3,7 +3,7 @@ import { Calendar } from './components/Calendar';
 import { StatsContainer } from './components/stats/StatsContainer';
 import { TodoItem } from './components/TodoItem';
 import { StatsContainerItem } from './components/stats/StatsContainerItem';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { CalendarData, CalendarItem } from './types/calendar';
 import { Input } from './components/ui/Input';
 import { Button } from './components/ui/Button';
@@ -13,8 +13,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './store/store';
 import { AddTodoForm } from './components/forms/AddTodoForm';
 import { TodoFormData } from './types/forms';
-import { addTodo } from './store/todoSlice';
+import { addTodo, removeTodo, updateTodo } from './store/todoSlice';
 import { formatDate } from './utils/date';
+import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
+import * as crud from './app/indexdb/todos';
+import { error, log } from './utils/logger';
+import { Modal } from './components/Modal';
+import { EditTodoForm } from './components/forms/EditTodoForm';
 
 export function App() {
 	const todos = useSelector((state: RootState) => state.todos.items);
@@ -45,8 +50,103 @@ export function App() {
 		);
 	};
 
+	const onDelete = (id: string) => {
+		dispatch(removeTodo(id));
+		try {
+			crud.removeTodo(id);
+			log('deleted', id);
+		} catch (e) {
+			error('not deleted, error', e);
+		}
+	};
+
+	const onEdit = (id: string) => {
+		setIsEditModalActive(!isEditModalActive);
+
+		setTodoId(id);
+
+		crud.getTodo(id).then((result) => {
+			log('', result);
+			if (result?.title === undefined || result.detail === undefined) {
+				return;
+			}
+
+			setTodoTitle(result.title);
+			setTodoDescription(result.detail !== 'No detail provided' ? result.detail : '');
+		});
+	};
+
+	const onComplete = (id: string) => {
+		crud.getTodo(id).then((item) => {
+			if (item === undefined) {
+				error('Todo to complete is undefined');
+				return;
+			}
+			dispatch(
+				updateTodo({
+					id: item?.id,
+					title: item.title,
+					detail: item.detail,
+					timestamp: item?.timestamp,
+					done: true,
+				}),
+			);
+		});
+	};
+
+	const [filterName, setFilterName] = useState<FilterName>('all');
+	const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+	const [query, setQuery] = useState('');
+	const [isEditModalActive, setIsEditModalActive] = useState<boolean>(false);
+	const sortedTodos = useMemo(
+		() => applyTodoFilters(todos, sortOrder, filterName, query),
+		[todos, filterName, sortOrder, query],
+	);
+
+	const [todoTitle, setTodoTitle] = useState<string>('');
+	const [todoDescription, setTodoDescription] = useState<string>('');
+	const [todoId, setTodoId] = useState<string>('');
+	const onEditFormSubmit = () => {
+		crud.getTodo(todoId).then((todo) => {
+			if (todo?.timestamp === undefined || todo.done === undefined) {
+				error('[edit form submit] todo.timestamp or todo.done. Payload: ', todo);
+				return;
+			}
+
+			if (todoTitle.length === 0) {
+				error('[edit form submit] todo.title is required');
+				return;
+			}
+
+			const _todo = {
+				id: todoId,
+				title: todoTitle,
+				detail: todoDescription,
+				timestamp: todo?.timestamp,
+				done: todo?.done,
+			};
+
+			dispatch(updateTodo(_todo));
+		});
+		setIsEditModalActive(false);
+	};
+
 	return (
 		<>
+			<Modal
+				title='Edit todo'
+				isActive={isEditModalActive}
+				onClose={() => setIsEditModalActive(false)}
+			>
+				<EditTodoForm
+					title={todoTitle}
+					description={todoDescription}
+					onTitleChange={setTodoTitle}
+					onDescriptionChange={setTodoDescription}
+					onSubmit={onEditFormSubmit}
+				/>
+			</Modal>
+
 			<header id='page-header'>
 				<div className='__content'>
 					Hello <span id='header-username'>%username%</span>! Ready to planning?
@@ -86,17 +186,25 @@ export function App() {
 													name='filter-name'
 													labelText='Filter'
 													id='filter-name-select'
+													onChange={(e) =>
+														setFilterName(e.target.value as FilterName)
+													}
+													value={filterName}
 												>
 													<SelectContainerItem
-														value='category'
-														text='By category'
+														value='all'
+														text='No matter what'
 													/>
 													<SelectContainerItem
-														value='name'
-														text='By name'
+														value='detail'
+														text='By description'
 													/>
 													<SelectContainerItem
-														value='date'
+														value='title'
+														text='By title'
+													/>
+													<SelectContainerItem
+														value='timestamp'
 														text='By date'
 													/>
 												</SelectContainer>
@@ -107,6 +215,10 @@ export function App() {
 													name='sort-order'
 													labelText='Sort'
 													id='sort-order-select'
+													value={sortOrder}
+													onChange={(e) =>
+														setSortOrder(e.target.value as SortOrder)
+													}
 												>
 													<SelectContainerItem
 														value='asc'
@@ -125,6 +237,7 @@ export function App() {
 												name='search'
 												id='search-input'
 												placeholder='Wanna search something?'
+												onChange={(e) => setQuery(e.target.value)}
 											/>
 
 											<Button text='&#8594;' type='submit' />
@@ -132,7 +245,7 @@ export function App() {
 									</form>
 								</section>
 
-								{todos.length === 0 && (
+								{sortedTodos.length === 0 && (
 									<div id='todos-empty'>
 										<p>
 											There was a hole here.
@@ -142,12 +255,17 @@ export function App() {
 								)}
 
 								<section id='todo-list'>
-									{todos.map((todo) => (
+									{sortedTodos.map((todo) => (
 										<TodoItem
+											id={todo.id}
 											key={todo.id}
 											title={todo.title}
 											detail={todo.detail}
 											timestamp={todo.timestamp}
+											onClose={(id) => onDelete(id)}
+											onEdit={(id) => onEdit(id)}
+											onComplete={(id) => onComplete(id)}
+											done={todo.done}
 										/>
 									))}
 								</section>
@@ -160,7 +278,6 @@ export function App() {
 					</div>
 				</main>
 			</div>
-			;
 		</>
 	);
 }
