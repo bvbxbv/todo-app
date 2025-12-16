@@ -19,7 +19,7 @@ import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
 import * as crud from './app/indexdb/todos';
 import { error, log } from './utils/logger';
 import { Modal } from './components/Modal';
-import { getItemById } from './app/indexdb/crud';
+import { EditTodoForm } from './components/forms/EditTodoForm';
 
 export function App() {
 	const todos = useSelector((state: RootState) => state.todos.items);
@@ -138,27 +138,13 @@ export function App() {
 				isActive={isEditModalActive}
 				onClose={() => setIsEditModalActive(false)}
 			>
-				<form action=''>
-					<Input
-						labelText='New title'
-						name='change-title'
-						id='change-todo-title'
-						placeholder='Your fixed title'
-						onChange={(e) => setTodoTitle(e.target.value)}
-						value={todoTitle}
-					/>
-
-					<Input
-						labelText='New description'
-						name='change-description'
-						id='change-todo-description'
-						placeholder='New beautiful description'
-						onChange={(e) => setTodoDescription(e.target.value)}
-						value={todoDescription}
-					/>
-
-					<Button text='> I want to edit' onClick={onEditFormSubmit} />
-				</form>
+				<EditTodoForm
+					title={todoTitle}
+					description={todoDescription}
+					onTitleChange={setTodoTitle}
+					onDescriptionChange={setTodoDescription}
+					onSubmit={onEditFormSubmit}
+				/>
 			</Modal>
 
 			<header id='page-header'>
