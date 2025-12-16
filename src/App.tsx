@@ -89,6 +89,32 @@ export function App() {
 
 	return (
 		<>
+			<section id='modal'>
+				<div className='__wrap'>
+					<div className='__title'>
+						<span>Edit todo</span>
+
+						<button className='icon'>[X]</button>
+					</div>
+
+					<div className='__content'>
+						<Input
+							labelText='New title'
+							name='change-title'
+							id='change-todo-title'
+							placeholder='Your fixed title'
+						/>
+
+						<Input
+							labelText='New description'
+							name='change-description'
+							id='change-todo-description'
+							placeholder='New beautiful description'
+						/>
+					</div>
+				</div>
+			</section>
+
 			<header id='page-header'>
 				<div className='__content'>
 					Hello <span id='header-username'>%username%</span>! Ready to planning?
@@ -220,7 +246,6 @@ export function App() {
 					</div>
 				</main>
 			</div>
-			;
 		</>
 	);
 }
