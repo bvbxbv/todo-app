@@ -38,12 +38,11 @@ export function App() {
 	});
 
 	const onAddTodoFormSubmit = (data: TodoFormData): void => {
-		const detail = data.description?.length === 0 ? 'No detail provided' : data.description;
 		dispatch(
 			addTodo({
 				id: crypto.randomUUID(),
 				title: data.title,
-				detail: detail ?? '',
+				detail: data.description ?? '',
 				timestamp: formatDate(new Date()),
 				done: false,
 			}),
@@ -260,7 +259,11 @@ export function App() {
 											id={todo.id}
 											key={todo.id}
 											title={todo.title}
-											detail={todo.detail}
+											detail={
+												todo.detail.length === 0
+													? 'No detail provided'
+													: todo.detail
+											}
 											timestamp={todo.timestamp}
 											onClose={(id) => onDelete(id)}
 											onEdit={(id) => onEdit(id)}
