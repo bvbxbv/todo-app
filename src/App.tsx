@@ -16,6 +16,7 @@ import { EditTodoForm } from './components/forms/EditTodoForm';
 import { useTodos } from './app/hooks/useTodos';
 import { error } from './utils/logger';
 import { useModal } from './app/hooks/useModal';
+import { TodoList } from './components/TodoList';
 
 export function App() {
 	const { todos, addTodo, removeTodo, completeTodo, getTodo, updateTodo } = useTodos();
@@ -173,34 +174,12 @@ export function App() {
 									</form>
 								</section>
 
-								{sortedTodos.length === 0 && (
-									<div id='todos-empty'>
-										<p>
-											There was a hole here.
-											<br /> Do you want it gone?
-										</p>
-									</div>
-								)}
-
-								<section id='todo-list'>
-									{sortedTodos.map((todo) => (
-										<TodoItem
-											id={todo.id}
-											key={todo.id}
-											title={todo.title}
-											detail={
-												todo.detail.length === 0
-													? 'No detail provided'
-													: todo.detail
-											}
-											timestamp={todo.timestamp}
-											onClose={(id) => removeTodo(id)}
-											onEdit={(id) => onEditButtonClick(id)}
-											onComplete={(id) => completeTodo(id)}
-											done={todo.done}
-										/>
-									))}
-								</section>
+								<TodoList
+									todos={sortedTodos}
+									onClose={removeTodo}
+									onEdit={onEditButtonClick}
+									onComplete={completeTodo}
+								/>
 
 								<section id='load-more'>
 									<Button text='Load more' id='load-more-button' />
