@@ -18,6 +18,7 @@ import { formatDate } from './utils/date';
 import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
 import * as crud from './app/indexdb/todos';
 import { error, log } from './utils/logger';
+import { Modal } from './components/Modal';
 
 export function App() {
 	const todos = useSelector((state: RootState) => state.todos.items);
@@ -58,7 +59,9 @@ export function App() {
 		}
 	};
 
-	const onEdit = (id: string) => {};
+	const onEdit = (id: string) => {
+		setIsEditModalActive(!isEditModalActive);
+	};
 
 	const onComplete = (id: string) => {
 		crud.getTodo(id).then((item) => {
@@ -81,7 +84,7 @@ export function App() {
 	const [filterName, setFilterName] = useState<FilterName>('all');
 	const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 	const [query, setQuery] = useState('');
-
+	const [isEditModalActive, setIsEditModalActive] = useState<boolean>(false);
 	const sortedTodos = useMemo(
 		() => applyTodoFilters(todos, sortOrder, filterName, query),
 		[todos, filterName, sortOrder, query],
@@ -89,31 +92,25 @@ export function App() {
 
 	return (
 		<>
-			<section id='modal'>
-				<div className='__wrap'>
-					<div className='__title'>
-						<span>Edit todo</span>
+			<Modal
+				title='Edit todo'
+				isActive={isEditModalActive}
+				onClose={() => setIsEditModalActive(false)}
+			>
+				<Input
+					labelText='New title'
+					name='change-title'
+					id='change-todo-title'
+					placeholder='Your fixed title'
+				/>
 
-						<button className='icon'>[X]</button>
-					</div>
-
-					<div className='__content'>
-						<Input
-							labelText='New title'
-							name='change-title'
-							id='change-todo-title'
-							placeholder='Your fixed title'
-						/>
-
-						<Input
-							labelText='New description'
-							name='change-description'
-							id='change-todo-description'
-							placeholder='New beautiful description'
-						/>
-					</div>
-				</div>
-			</section>
+				<Input
+					labelText='New description'
+					name='change-description'
+					id='change-todo-description'
+					placeholder='New beautiful description'
+				/>
+			</Modal>
 
 			<header id='page-header'>
 				<div className='__content'>
