@@ -1,9 +1,50 @@
-@use "../../vars/bootstrap" as bs;
-@use "../../utils" as *;
+@use '../../vars/bootstrap' as bs;
+@use '../../utils' as *;
+
+@keyframes gone {
+	from {
+		transform: scale(100%);
+	}
+
+	to {
+		transform: scale(0%);
+	}
+}
 
 .todo-item {
-	border: 1px solid bs.$color-background-active;
+	border: 2px solid bs.$color-background-active;
 	padding: 10px 20px;
+
+	&.closed {
+		animation: gone 0.15s forwards;
+	}
+
+	&.completed {
+		border: 2px dashed bs.$color-background-active;
+		.__title {
+			span {
+				text-decoration: line-through;
+			}
+		}
+
+		.__description {
+			text-decoration: line-through;
+		}
+		.__timestamp {
+			text-decoration: line-through;
+		}
+
+		.__controls {
+			button {
+				text-decoration: line-through;
+
+				&:hover {
+					background: transparent;
+					color: inherit;
+				}
+			}
+		}
+	}
 
 	.row {
 		&:first-child {
