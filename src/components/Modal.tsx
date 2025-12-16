@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Button } from './ui/Button';
 
 interface ModalProps {
 	title: string;
@@ -26,9 +27,7 @@ export function Modal({ title, children, isActive, onClose }: ModalProps) {
 				<div className='__title'>
 					<span>{title}</span>
 
-					<button className='icon' onClick={() => onClose()}>
-						[X]
-					</button>
+					<Button className='icon' onClick={onClose} text='[X]' />
 				</div>
 
 				<div className='__content'>{children}</div>
