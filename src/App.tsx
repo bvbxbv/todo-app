@@ -15,13 +15,14 @@ import { Modal } from './components/Modal';
 import { EditTodoForm } from './components/forms/EditTodoForm';
 import { useTodos } from './app/hooks/useTodos';
 import { error } from './utils/logger';
+import { useModal } from './app/hooks/useModal';
 
 export function App() {
 	const { todos, addTodo, removeTodo, completeTodo, getTodo, updateTodo } = useTodos();
 	const [filterName, setFilterName] = useState<FilterName>('all');
 	const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 	const [query, setQuery] = useState('');
-	const [isEditModalActive, setIsEditModalActive] = useState<boolean>(false);
+	const { isModalActive, openModal, closeModal } = useModal();
 	const [todoTitle, setTodoTitle] = useState<string>('');
 	const [todoDescription, setTodoDescription] = useState<string>('');
 	const [todoId, setTodoId] = useState<string>('');
@@ -44,7 +45,7 @@ export function App() {
 	);
 
 	const onEditButtonClick = async (id: string) => {
-		setIsEditModalActive(!isEditModalActive);
+		openModal();
 
 		setTodoId(id);
 		const todo = await getTodo(id);
@@ -59,16 +60,12 @@ export function App() {
 
 	const onEditFormSubmit = () => {
 		updateTodo(todoId, todoTitle, todoDescription);
-		setIsEditModalActive(false);
+		closeModal();
 	};
 
 	return (
 		<>
-			<Modal
-				title='Edit todo'
-				isActive={isEditModalActive}
-				onClose={() => setIsEditModalActive(false)}
-			>
+			<Modal title='Edit todo' isActive={isModalActive} onClose={closeModal}>
 				<EditTodoForm
 					title={todoTitle}
 					description={todoDescription}
