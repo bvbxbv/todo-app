@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Button } from './ui/Button';
 
 interface ToastProps {
 	text: string | undefined;
@@ -26,7 +27,7 @@ export function Toast({ text, trigger, delay = 2000 }: ToastProps) {
 				<div className='__title'>
 					<span>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</span>
 					<div className='__controls'>
-						<button>[X]</button>
+						<Button text='[X]' />
 					</div>
 				</div>
 

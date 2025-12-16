@@ -1,14 +1,11 @@
 import './scss/main.scss';
 import { Calendar } from './components/Calendar';
 import { StatsContainer } from './components/stats/StatsContainer';
-import { TodoItem } from './components/TodoItem';
 import { StatsContainerItem } from './components/stats/StatsContainerItem';
 import { useMemo, useState } from 'react';
 import { CalendarData, CalendarItem } from './types/calendar';
 import { Input } from './components/ui/Input';
 import { Button } from './components/ui/Button';
-import { SelectContainer } from './components/ui/Select/SelectContainer';
-import { SelectContainerItem } from './components/ui/Select/SelectContainerItem';
 import { AddTodoForm } from './components/forms/AddTodoForm';
 import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
 import { Modal } from './components/Modal';
@@ -17,6 +14,7 @@ import { useTodos } from './app/hooks/useTodos';
 import { error } from './utils/logger';
 import { useModal } from './app/hooks/useModal';
 import { TodoList } from './components/TodoList';
+import { Filters } from './components/Filters';
 
 export function App() {
 	const { todos, addTodo, removeTodo, completeTodo, getTodo, updateTodo } = useTodos();
@@ -107,72 +105,13 @@ export function App() {
 							</div>
 
 							<div className='__content'>
-								<section id='filters'>
-									<form action=''>
-										<div className='group'>
-											<div className='filter'>
-												<SelectContainer
-													name='filter-name'
-													labelText='Filter'
-													id='filter-name-select'
-													onChange={(e) =>
-														setFilterName(e.target.value as FilterName)
-													}
-													value={filterName}
-												>
-													<SelectContainerItem
-														value='all'
-														text='No matter what'
-													/>
-													<SelectContainerItem
-														value='detail'
-														text='By description'
-													/>
-													<SelectContainerItem
-														value='title'
-														text='By title'
-													/>
-													<SelectContainerItem
-														value='timestamp'
-														text='By date'
-													/>
-												</SelectContainer>
-											</div>
-
-											<div className='filter'>
-												<SelectContainer
-													name='sort-order'
-													labelText='Sort'
-													id='sort-order-select'
-													value={sortOrder}
-													onChange={(e) =>
-														setSortOrder(e.target.value as SortOrder)
-													}
-												>
-													<SelectContainerItem
-														value='asc'
-														text='Ascending'
-													/>
-													<SelectContainerItem
-														value='desc'
-														text='Descending'
-													/>
-												</SelectContainer>
-											</div>
-										</div>
-
-										<div className='group'>
-											<Input
-												name='search'
-												id='search-input'
-												placeholder='Wanna search something?'
-												onChange={(e) => setQuery(e.target.value)}
-											/>
-
-											<Button text='&#8594;' type='submit' />
-										</div>
-									</form>
-								</section>
+								<Filters
+									onFilterNameChange={setFilterName}
+									filterName={filterName}
+									onSortOrderChange={setSortOrder}
+									sortOrder={sortOrder}
+									onQueryChange={setQuery}
+								/>
 
 								<TodoList
 									todos={sortedTodos}
