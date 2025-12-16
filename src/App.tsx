@@ -18,6 +18,8 @@ import { formatDate } from './utils/date';
 import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
 import * as crud from './app/indexdb/todos';
 import { error, log } from './utils/logger';
+import { Modal } from './components/Modal';
+import { EditTodoForm } from './components/forms/EditTodoForm';
 
 export function App() {
 	const todos = useSelector((state: RootState) => state.todos.items);
@@ -58,7 +60,21 @@ export function App() {
 		}
 	};
 
-	const onEdit = (id: string) => {};
+	const onEdit = (id: string) => {
+		setIsEditModalActive(!isEditModalActive);
+
+		setTodoId(id);
+
+		crud.getTodo(id).then((result) => {
+			log('', result);
+			if (result?.title === undefined || result.detail === undefined) {
+				return;
+			}
+
+			setTodoTitle(result.title);
+			setTodoDescription(result.detail !== 'No detail provided' ? result.detail : '');
+		});
+	};
 
 	const onComplete = (id: string) => {
 		crud.getTodo(id).then((item) => {
@@ -81,14 +97,56 @@ export function App() {
 	const [filterName, setFilterName] = useState<FilterName>('all');
 	const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 	const [query, setQuery] = useState('');
-
+	const [isEditModalActive, setIsEditModalActive] = useState<boolean>(false);
 	const sortedTodos = useMemo(
 		() => applyTodoFilters(todos, sortOrder, filterName, query),
 		[todos, filterName, sortOrder, query],
 	);
 
+	const [todoTitle, setTodoTitle] = useState<string>('');
+	const [todoDescription, setTodoDescription] = useState<string>('');
+	const [todoId, setTodoId] = useState<string>('');
+	const onEditFormSubmit = () => {
+		crud.getTodo(todoId).then((todo) => {
+			if (todo?.timestamp === undefined || todo.done === undefined) {
+				error('[edit form submit] todo.timestamp or todo.done. Payload: ', todo);
+				return;
+			}
+
+			if (todoTitle.length === 0) {
+				error('[edit form submit] todo.title is required');
+				return;
+			}
+
+			const _todo = {
+				id: todoId,
+				title: todoTitle,
+				detail: todoDescription,
+				timestamp: todo?.timestamp,
+				done: todo?.done,
+			};
+
+			dispatch(updateTodo(_todo));
+		});
+		setIsEditModalActive(false);
+	};
+
 	return (
 		<>
+			<Modal
+				title='Edit todo'
+				isActive={isEditModalActive}
+				onClose={() => setIsEditModalActive(false)}
+			>
+				<EditTodoForm
+					title={todoTitle}
+					description={todoDescription}
+					onTitleChange={setTodoTitle}
+					onDescriptionChange={setTodoDescription}
+					onSubmit={onEditFormSubmit}
+				/>
+			</Modal>
+
 			<header id='page-header'>
 				<div className='__content'>
 					Hello <span id='header-username'>%username%</span>! Ready to planning?
@@ -220,7 +278,6 @@ export function App() {
 					</div>
 				</main>
 			</div>
-			;
 		</>
 	);
 }

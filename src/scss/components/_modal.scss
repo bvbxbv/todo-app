@@ -1,0 +1,94 @@
+@use '../utils' as *;
+@use '../vars/bootstrap' as bs;
+
+@keyframes onShow {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes onHide {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+section#modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: rgba($color: #000000, $alpha: 0.5);
+	backdrop-filter: blur(15px);
+	opacity: 0;
+
+	&.active {
+		pointer-events: all;
+		animation: onShow 0.2s forwards;
+	}
+
+	&.hidden {
+		pointer-events: none;
+		animation: onHide 0.2s forwards;
+	}
+
+	.__wrap {
+		width: 90%;
+		background-color: bs.$color-background-primary;
+		border: 2px dashed bs.$color-border-primary;
+		@include on('md') {
+			width: 50%;
+		}
+		height: 40vh;
+		display: flex;
+		flex-direction: column;
+
+		.__title {
+			border-bottom: 2px dashed bs.$color-border-primary;
+			padding: 20px;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+
+			button {
+				font-size: bs.$default-font-size;
+				padding: 0;
+			}
+		}
+
+		.__content {
+			form {
+				padding: 20px;
+				display: flex;
+				flex-direction: column;
+
+				label {
+					text-align: center;
+					padding: 20px 0px;
+				}
+
+				button {
+					margin-top: 20px;
+				}
+			}
+		}
+	}
+}
+
+body.modal-open {
+	overflow: hidden;
+}
