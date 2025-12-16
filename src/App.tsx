@@ -83,8 +83,14 @@ export function App() {
 				<aside id='page-sidebar'>
 					<Calendar calendar={calendarItems} />
 					<StatsContainer>
-						<StatsContainerItem title='Completed:' value={1} />
-						<StatsContainerItem title='Pending:' value={0} />
+						<StatsContainerItem
+							title='Completed:'
+							value={todos.filter((todo) => todo.done).length}
+						/>
+						<StatsContainerItem
+							title='Pending:'
+							value={todos.filter((todo) => !todo.done).length}
+						/>
 					</StatsContainer>
 
 					<section id='change-username'>
