@@ -9,21 +9,22 @@ import { Input } from './components/ui/Input';
 import { Button } from './components/ui/Button';
 import { SelectContainer } from './components/ui/Select/SelectContainer';
 import { SelectContainerItem } from './components/ui/Select/SelectContainerItem';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from './store/store';
 import { AddTodoForm } from './components/forms/AddTodoForm';
-import { TodoFormData } from './types/forms';
-import { addTodo, removeTodo, updateTodo } from './store/todoSlice';
-import { formatDate } from './utils/date';
 import { FilterName, SortOrder, applyTodoFilters } from './app/todoSort';
-import * as crud from './app/indexdb/todos';
-import { error, log } from './utils/logger';
 import { Modal } from './components/Modal';
 import { EditTodoForm } from './components/forms/EditTodoForm';
+import { useTodos } from './app/hooks/useTodos';
+import { error } from './utils/logger';
 
 export function App() {
-	const todos = useSelector((state: RootState) => state.todos.items);
-	const dispatch = useDispatch();
+	const { todos, addTodo, removeTodo, completeTodo, getTodo, updateTodo } = useTodos();
+	const [filterName, setFilterName] = useState<FilterName>('all');
+	const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+	const [query, setQuery] = useState('');
+	const [isEditModalActive, setIsEditModalActive] = useState<boolean>(false);
+	const [todoTitle, setTodoTitle] = useState<string>('');
+	const [todoDescription, setTodoDescription] = useState<string>('');
+	const [todoId, setTodoId] = useState<string>('');
 
 	const [calendarItems, setCalendarItems] = useState<CalendarData>({
 		title: '11, Dec 2025',
@@ -37,96 +38,27 @@ export function App() {
 		),
 	});
 
-	const onAddTodoFormSubmit = (data: TodoFormData): void => {
-		dispatch(
-			addTodo({
-				id: crypto.randomUUID(),
-				title: data.title,
-				detail: data.description ?? '',
-				timestamp: formatDate(new Date()),
-				done: false,
-			}),
-		);
-	};
-
-	const onDelete = (id: string) => {
-		dispatch(removeTodo(id));
-		try {
-			crud.removeTodo(id);
-			log('deleted', id);
-		} catch (e) {
-			error('not deleted, error', e);
-		}
-	};
-
-	const onEdit = (id: string) => {
-		setIsEditModalActive(!isEditModalActive);
-
-		setTodoId(id);
-
-		crud.getTodo(id).then((result) => {
-			log('', result);
-			if (result?.title === undefined || result.detail === undefined) {
-				return;
-			}
-
-			setTodoTitle(result.title);
-			setTodoDescription(result.detail !== 'No detail provided' ? result.detail : '');
-		});
-	};
-
-	const onComplete = (id: string) => {
-		crud.getTodo(id).then((item) => {
-			if (item === undefined) {
-				error('Todo to complete is undefined');
-				return;
-			}
-			dispatch(
-				updateTodo({
-					id: item?.id,
-					title: item.title,
-					detail: item.detail,
-					timestamp: item?.timestamp,
-					done: true,
-				}),
-			);
-		});
-	};
-
-	const [filterName, setFilterName] = useState<FilterName>('all');
-	const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
-	const [query, setQuery] = useState('');
-	const [isEditModalActive, setIsEditModalActive] = useState<boolean>(false);
 	const sortedTodos = useMemo(
 		() => applyTodoFilters(todos, sortOrder, filterName, query),
 		[todos, filterName, sortOrder, query],
 	);
 
-	const [todoTitle, setTodoTitle] = useState<string>('');
-	const [todoDescription, setTodoDescription] = useState<string>('');
-	const [todoId, setTodoId] = useState<string>('');
+	const onEditButtonClick = async (id: string) => {
+		setIsEditModalActive(!isEditModalActive);
+
+		setTodoId(id);
+		const todo = await getTodo(id);
+		if (!todo) {
+			error('[App.onEdit] todo is undefined|null');
+			return;
+		}
+
+		setTodoTitle(todo.title);
+		setTodoDescription(todo.detail !== 'No detail provided' ? todo.detail : '');
+	};
+
 	const onEditFormSubmit = () => {
-		crud.getTodo(todoId).then((todo) => {
-			if (todo?.timestamp === undefined || todo.done === undefined) {
-				error('[edit form submit] todo.timestamp or todo.done. Payload: ', todo);
-				return;
-			}
-
-			if (todoTitle.length === 0) {
-				error('[edit form submit] todo.title is required');
-				return;
-			}
-
-			const _todo = {
-				id: todoId,
-				title: todoTitle,
-				detail: todoDescription,
-				timestamp: todo?.timestamp,
-				done: todo?.done,
-			};
-
-			dispatch(updateTodo(_todo));
-		});
+		updateTodo(todoId, todoTitle, todoDescription);
 		setIsEditModalActive(false);
 	};
 
@@ -173,7 +105,7 @@ export function App() {
 					<div className='__content'>
 						<section id='todos'>
 							<div className='__title'>
-								<AddTodoForm onSubmit={onAddTodoFormSubmit} />
+								<AddTodoForm onSubmit={addTodo} />
 							</div>
 
 							<div className='__content'>
@@ -265,9 +197,9 @@ export function App() {
 													: todo.detail
 											}
 											timestamp={todo.timestamp}
-											onClose={(id) => onDelete(id)}
-											onEdit={(id) => onEdit(id)}
-											onComplete={(id) => onComplete(id)}
+											onClose={(id) => removeTodo(id)}
+											onEdit={(id) => onEditButtonClick(id)}
+											onComplete={(id) => completeTodo(id)}
 											done={todo.done}
 										/>
 									))}
