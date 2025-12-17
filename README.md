@@ -1,5 +1,9 @@
 # todo app
 
+<p align="center">
+  <img src="docs/screenshots/app.png" width="480" alt="app view">
+</p>
+
 Simple todo app on React + TypeScript in CLI-like style.
 
 # Installation
