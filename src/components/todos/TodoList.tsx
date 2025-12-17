@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { Todo } from '../types/todos';
+import { Todo } from '../../types/todos';
 import { TodoItem } from './TodoItem';
 
 interface TodoListProps {

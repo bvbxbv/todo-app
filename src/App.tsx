@@ -13,7 +13,7 @@ import { EditTodoForm } from './components/forms/EditTodoForm';
 import { useTodos } from './app/hooks/useTodos';
 import { error } from './utils/logger';
 import { useModal } from './app/hooks/useModal';
-import { TodoList } from './components/TodoList';
+import { TodoList } from './components/todos/TodoList';
 import { Filters } from './components/Filters';
 import { formatDate, getDaysInMonth } from './utils/date';
 import { set } from 'zod';
@@ -27,9 +27,9 @@ export function App() {
 	const [todoTitle, setTodoTitle] = useState<string>('');
 	const [todoDescription, setTodoDescription] = useState<string>('');
 	const [todoId, setTodoId] = useState<string>('');
-	const [filterDay, setFilterDay] = useState<number>(0);
+	const [filterDay, setFilterDay] = useState<number>(new Date().getDate());
 
-	const _days = getDaysInMonth(new Date().getMonth(), new Date().getFullYear());
+	const _days = getDaysInMonth(new Date().getMonth(), new Date().getDay());
 	const [calendarItems, setCalendarItems] = useState<CalendarData>({
 		title: formatDate(new Date()),
 		items: Array.from({ length: _days }, (_, i) => ({
@@ -83,6 +83,7 @@ export function App() {
 				<aside id='page-sidebar'>
 					<Calendar
 						calendar={calendarItems}
+						activeDay={filterDay}
 						onClick={(day) => {
 							setFilterDay(day);
 						}}
