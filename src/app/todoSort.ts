@@ -8,6 +8,7 @@ export function applyTodoFilters(
 	sortOrder: SortOrder,
 	filterName: FilterName,
 	query: string,
+	filterDay: number,
 ) {
 	const _query = query.toLowerCase();
 	return [...todos]
@@ -15,6 +16,14 @@ export function applyTodoFilters(
 			return sortOrder === 'asc'
 				? a.title.localeCompare(b.title)
 				: b.title.localeCompare(a.title);
+		})
+		.filter((todo) => {
+			if (filterDay === 0) {
+				return true;
+			}
+
+			const todoDate = new Date(todo.timestamp);
+			return todoDate.getDate() === filterDay;
 		})
 		.filter((todo) => {
 			if (!_query) return true;

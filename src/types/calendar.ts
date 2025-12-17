@@ -11,4 +11,6 @@ export interface CalendarData {
 
 export interface CalendarProps {
 	calendar: CalendarData;
+	onClick: (dayNumber: number) => void;
+	activeDay: number;
 }
