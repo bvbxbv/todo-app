@@ -98,15 +98,6 @@ export function App() {
 							value={todos.filter((todo) => !todo.done).length}
 						/>
 					</StatsContainer>
-
-					<section id='change-username'>
-						<Input
-							labelText='Well, your new name is:'
-							name='change-username'
-							id='change-username-input'
-							placeholder='>'
-						/>
-					</section>
 				</aside>
 
 				<main id='page-content'>
