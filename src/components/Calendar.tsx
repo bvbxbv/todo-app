@@ -1,6 +1,6 @@
 import { CalendarProps } from '../types/calendar';
 
-export function Calendar({ calendar }: CalendarProps) {
+export function Calendar({ calendar, onClick }: CalendarProps) {
 	return (
 		<>
 			<section id='calendar'>
@@ -8,7 +8,11 @@ export function Calendar({ calendar }: CalendarProps) {
 
 				<div className='__content'>
 					{calendar.items.map((item) => (
-						<div className={item.completed ? 'day completed' : 'day'} key={item.id}>
+						<div
+							className={item.completed ? 'day completed' : 'day'}
+							key={item.id}
+							onClick={() => onClick(item.number)}
+						>
 							{item.number}
 						</div>
 					))}

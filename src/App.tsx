@@ -3,7 +3,7 @@ import { Calendar } from './components/Calendar';
 import { StatsContainer } from './components/stats/StatsContainer';
 import { StatsContainerItem } from './components/stats/StatsContainerItem';
 import { useMemo, useState } from 'react';
-import { CalendarData, CalendarItem } from './types/calendar';
+import { CalendarData } from './types/calendar';
 import { Input } from './components/ui/Input';
 import { Button } from './components/ui/Button';
 import { AddTodoForm } from './components/forms/AddTodoForm';
@@ -15,6 +15,8 @@ import { error } from './utils/logger';
 import { useModal } from './app/hooks/useModal';
 import { TodoList } from './components/TodoList';
 import { Filters } from './components/Filters';
+import { formatDate, getDaysInMonth } from './utils/date';
+import { set } from 'zod';
 
 export function App() {
 	const { todos, addTodo, removeTodo, completeTodo, getTodo, updateTodo } = useTodos();
@@ -25,22 +27,20 @@ export function App() {
 	const [todoTitle, setTodoTitle] = useState<string>('');
 	const [todoDescription, setTodoDescription] = useState<string>('');
 	const [todoId, setTodoId] = useState<string>('');
+	const [filterDay, setFilterDay] = useState<number>(0);
 
+	const _days = getDaysInMonth(new Date().getMonth(), new Date().getFullYear());
 	const [calendarItems, setCalendarItems] = useState<CalendarData>({
-		title: '11, Dec 2025',
-		items: Array.from(
-			{ length: 32 },
-			(_, i): CalendarItem => ({
-				id: i,
-				number: i,
-				completed: false,
-			}),
-		),
+		title: formatDate(new Date()),
+		items: Array.from({ length: _days }, (_, i) => ({
+			id: i + 1,
+			number: i + 1,
+		})),
 	});
 
 	const sortedTodos = useMemo(
-		() => applyTodoFilters(todos, sortOrder, filterName, query),
-		[todos, filterName, sortOrder, query],
+		() => applyTodoFilters(todos, sortOrder, filterName, query, filterDay),
+		[todos, filterName, sortOrder, query, filterDay],
 	);
 
 	const onEditButtonClick = async (id: string) => {
@@ -81,7 +81,12 @@ export function App() {
 			</header>
 			<div id='page-container'>
 				<aside id='page-sidebar'>
-					<Calendar calendar={calendarItems} />
+					<Calendar
+						calendar={calendarItems}
+						onClick={(day) => {
+							setFilterDay(day);
+						}}
+					/>
 					<StatsContainer>
 						<StatsContainerItem
 							title='Completed:'
